@@ -17,7 +17,7 @@
       gimbal_frame: "psdk_gimbal_link"
       camera_frame: "psdk_camera_link"
       perception_camera_frame: "psdk_perception_camera_link"
-      publish_transforms: true
+      publish_transforms: false
 
       file_path: "/logs/media/"
 
@@ -36,19 +36,19 @@
 
       data_frequency: # Options are: 1, 5, 10, 50, 100, 200, 400 Hz
         imu: 100
-        attitude: 100
+        attitude: 50
         acceleration: 50
         velocity: 50
-        angular_velocity: 100
+        angular_velocity: 50
         position: 50
         altitude: 50
         gps_fused_position: 10
         gps_data: 5
         rtk_data: 5
         magnetometer: 50
-        rc_channels_data: 1
+        rc_channels_data: 5
         gimbal_data: 1
-        flight_status: 1
+        flight_status: 10
         battery_level: 1
-        control_information: 1
-        esc_data_frequency: 1
+        control_information: 5
+        esc_data_frequency: 50
