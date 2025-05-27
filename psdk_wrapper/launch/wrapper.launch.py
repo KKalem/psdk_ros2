@@ -30,9 +30,8 @@ def generate_launch_description():
     # Declare the namespace launch argument
     declare_namespace_cmd = DeclareLaunchArgument(
         "namespace",
-        default_value="wrapper",
-        description="Namespace of the node",
-    )
+        default_value="Quadrotor/wrapper",
+        description="Namespace of the node",)
 
     # Declare wrapper parameters
     psdk_params_default_value = PathJoinSubstitution(
