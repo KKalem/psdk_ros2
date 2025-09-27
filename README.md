@@ -1,5 +1,7 @@
 # psdk_ros2
 
+Forked from: https://github.com/bitcurious/psdk_ros2/tree/non-root-user
+
 **psdk_ros2** is an open-source ROS 2 wrapper that brings DJI's [Payload-SDK](https://github.com/dji-sdk/Payload-SDK) libraries capabilities into the robotics ecosystem. 
 You can find all the wrapper's documentation at [https://umdlife.github.io/psdk_ros2](https://umdlife.github.io/psdk_ros2/documentation/Introduction.html).
 ## Features 
