@@ -39,8 +39,9 @@ include(FetchContent)
 # Declare the content to fetch
 FetchContent_Declare(
   Payload_SDK
-  GIT_REPOSITORY https://github.com/bitcurious/Payload-SDK.git
-  GIT_TAG non-root-user
+  #GIT_REPOSITORY https://github.com/bitcurious/Payload-SDK.git
+  #GIT_TAG non-root-user
+  SOURCE_DIR /home/alars/Payload-SDK
 )
 
 FetchContent_GetProperties(Payload_SDK)
