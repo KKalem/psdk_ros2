@@ -672,7 +672,14 @@ PSDKWrapper::init(T_DjiUserInfo *user_info)
     return false;
   }
 
-  if (aircraft_base_info_.mountPosition != DJI_MOUNT_POSITION_EXTENSION_PORT)
+  RCLCPP_INFO(get_logger(), "Aircraft base information: ");
+  RCLCPP_INFO(get_logger(), "  - Mount position: %d (eport=%d, eportlite=%d))",
+              aircraft_base_info_.mountPosition, 
+              DJI_MOUNT_POSITION_EXTENSION_PORT,
+              DJI_MOUNT_POSITION_EXTENSION_LITE_PORT);
+
+  if (aircraft_base_info_.mountPosition != DJI_MOUNT_POSITION_EXTENSION_PORT &&
+      aircraft_base_info_.mountPosition != DJI_MOUNT_POSITION_EXTENSION_LITE_PORT)
   {
     RCLCPP_ERROR(get_logger(), "Please use the extension port");
     return false;
