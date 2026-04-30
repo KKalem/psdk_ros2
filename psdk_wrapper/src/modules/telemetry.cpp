@@ -40,104 +40,109 @@ TelemetryModule::~TelemetryModule()
 TelemetryModule::CallbackReturn
 TelemetryModule::on_configure(const rclcpp_lifecycle::State &state)
 {
+
+  rclcpp::QoS qos_best_effort10(rclcpp::KeepLast(10));
+  qos_best_effort10.best_effort();
+  qos_best_effort10.durability_volatile();
+
   (void)state;
   RCLCPP_INFO(get_logger(), "Configuring TelemetryModule");
 
   // Create ROS 2 publishers
   attitude_pub_ = create_publisher<geometry_msgs::msg::QuaternionStamped>(
-      "psdk_ros2/attitude", 10);
-  imu_pub_ = create_publisher<sensor_msgs::msg::Imu>("psdk_ros2/imu", 10);
+      "psdk_ros2/attitude", qos_best_effort10);
+  imu_pub_ = create_publisher<sensor_msgs::msg::Imu>("psdk_ros2/imu", qos_best_effort10);
   velocity_ground_fused_pub_ =
       create_publisher<geometry_msgs::msg::Vector3Stamped>(
-          "psdk_ros2/velocity_ground_fused", 10);
+          "psdk_ros2/velocity_ground_fused", qos_best_effort10);
   position_fused_pub_ = create_publisher<psdk_interfaces::msg::PositionFused>(
-      "psdk_ros2/position_fused", 10);
+      "psdk_ros2/position_fused", qos_best_effort10);
   gps_fused_pub_ = create_publisher<sensor_msgs::msg::NavSatFix>(
-      "psdk_ros2/gps_position_fused", 10);
+      "psdk_ros2/gps_position_fused", qos_best_effort10);
   gps_position_pub_ = create_publisher<sensor_msgs::msg::NavSatFix>(
-      "psdk_ros2/gps_position", 10);
+      "psdk_ros2/gps_position", qos_best_effort10);
   gps_velocity_pub_ = create_publisher<geometry_msgs::msg::TwistStamped>(
-      "psdk_ros2/gps_velocity", 10);
+      "psdk_ros2/gps_velocity", qos_best_effort10);
   gps_details_pub_ = create_publisher<psdk_interfaces::msg::GPSDetails>(
-      "psdk_ros2/gps_details", 10);
+      "psdk_ros2/gps_details", qos_best_effort10);
   gps_signal_pub_ =
-      create_publisher<std_msgs::msg::UInt8>("psdk_ros2/gps_signal_level", 10);
+      create_publisher<std_msgs::msg::UInt8>("psdk_ros2/gps_signal_level", qos_best_effort10);
   gps_control_pub_ =
-      create_publisher<std_msgs::msg::UInt8>("psdk_ros2/gps_control_level", 10);
+      create_publisher<std_msgs::msg::UInt8>("psdk_ros2/gps_control_level", qos_best_effort10);
   rtk_position_pub_ = create_publisher<sensor_msgs::msg::NavSatFix>(
-      "psdk_ros2/rtk_position", 10);
+      "psdk_ros2/rtk_position", qos_best_effort10);
   rtk_velocity_pub_ = create_publisher<geometry_msgs::msg::TwistStamped>(
-      "psdk_ros2/rtk_velocity", 10);
+      "psdk_ros2/rtk_velocity", qos_best_effort10);
   rtk_yaw_pub_ =
-      create_publisher<psdk_interfaces::msg::RTKYaw>("psdk_ros2/rtk_yaw", 10);
+      create_publisher<psdk_interfaces::msg::RTKYaw>("psdk_ros2/rtk_yaw", qos_best_effort10);
   rtk_position_info_pub_ =
-      create_publisher<std_msgs::msg::UInt8>("psdk_ros2/rtk_position_info", 10);
+      create_publisher<std_msgs::msg::UInt8>("psdk_ros2/rtk_position_info", qos_best_effort10);
   rtk_yaw_info_pub_ =
-      create_publisher<std_msgs::msg::UInt8>("psdk_ros2/rtk_yaw_info", 10);
+      create_publisher<std_msgs::msg::UInt8>("psdk_ros2/rtk_yaw_info", qos_best_effort10);
   rtk_connection_status_pub_ = create_publisher<std_msgs::msg::UInt16>(
-      "psdk_ros2/rtk_connection_status", 10);
+      "psdk_ros2/rtk_connection_status", qos_best_effort10);
   magnetic_field_pub_ = create_publisher<sensor_msgs::msg::MagneticField>(
-      "psdk_ros2/magnetic_field", 10);
-  rc_pub_ = create_publisher<sensor_msgs::msg::Joy>("psdk_ros2/rc", 10);
+      "psdk_ros2/magnetic_field", qos_best_effort10);
+  rc_pub_ = create_publisher<sensor_msgs::msg::Joy>("psdk_ros2/rc", qos_best_effort10);
   rc_connection_status_pub_ =
       create_publisher<psdk_interfaces::msg::RCConnectionStatus>(
-          "psdk_ros2/rc_connection_status", 10);
+          "psdk_ros2/rc_connection_status", qos_best_effort10);
   esc_pub_ =
-      create_publisher<psdk_interfaces::msg::EscData>("psdk_ros2/esc_data", 1);
+      create_publisher<psdk_interfaces::msg::EscData>("psdk_ros2/esc_data", qos_best_effort10);
   gimbal_angles_pub_ = create_publisher<geometry_msgs::msg::Vector3Stamped>(
-      "psdk_ros2/gimbal_angles", 10);
+      "psdk_ros2/gimbal_angles", qos_best_effort10);
   gimbal_status_pub_ = create_publisher<psdk_interfaces::msg::GimbalStatus>(
-      "psdk_ros2/gimbal_status", 10);
+      "psdk_ros2/gimbal_status", qos_best_effort10);
   flight_status_pub_ = create_publisher<psdk_interfaces::msg::FlightStatus>(
-      "psdk_ros2/flight_status", 10);
+      "psdk_ros2/flight_status", qos_best_effort10);
   display_mode_pub_ = create_publisher<psdk_interfaces::msg::DisplayMode>(
-      "psdk_ros2/display_mode", 10);
+      "psdk_ros2/display_mode", qos_best_effort10);
   landing_gear_pub_ = create_publisher<std_msgs::msg::UInt8>(
-      "psdk_ros2/landing_gear_status", 10);
+      "psdk_ros2/landing_gear_status", qos_best_effort10);
   motor_start_error_pub_ = create_publisher<std_msgs::msg::UInt16>(
-      "psdk_ros2/motor_start_error", 10);
+      "psdk_ros2/motor_start_error", qos_best_effort10);
   flight_anomaly_pub_ = create_publisher<psdk_interfaces::msg::FlightAnomaly>(
-      "psdk_ros2/flight_anomaly", 10);
+      "psdk_ros2/flight_anomaly", qos_best_effort10);
   battery_pub_ =
-      create_publisher<sensor_msgs::msg::BatteryState>("psdk_ros2/battery", 10);
+      create_publisher<sensor_msgs::msg::BatteryState>("psdk_ros2/battery", qos_best_effort10);
   single_battery_index1_pub_ =
       create_publisher<psdk_interfaces::msg::SingleBatteryInfo>(
-          "psdk_ros2/single_battery_index1", 10);
+          "psdk_ros2/single_battery_index1", qos_best_effort10);
   single_battery_index2_pub_ =
       create_publisher<psdk_interfaces::msg::SingleBatteryInfo>(
-          "psdk_ros2/single_battery_index2", 10);
+          "psdk_ros2/single_battery_index2", qos_best_effort10);
   height_fused_pub_ = create_publisher<std_msgs::msg::Float32>(
-      "psdk_ros2/height_above_ground", 10);
+      "psdk_ros2/height_above_ground", qos_best_effort10);
   angular_rate_body_raw_pub_ =
       create_publisher<geometry_msgs::msg::Vector3Stamped>(
-          "psdk_ros2/angular_rate_body_raw", 10);
+          "psdk_ros2/angular_rate_body_raw", qos_best_effort10);
   angular_rate_ground_fused_pub_ =
       create_publisher<geometry_msgs::msg::Vector3Stamped>(
-          "psdk_ros2/angular_rate_ground_fused", 10);
+          "psdk_ros2/angular_rate_ground_fused", qos_best_effort10);
   acceleration_ground_fused_pub_ =
       create_publisher<geometry_msgs::msg::AccelStamped>(
-          "psdk_ros2/acceleration_ground_fused", 10);
+          "psdk_ros2/acceleration_ground_fused", qos_best_effort10);
   acceleration_body_fused_pub_ =
       create_publisher<geometry_msgs::msg::AccelStamped>(
-          "psdk_ros2/acceleration_body_fused", 10);
+          "psdk_ros2/acceleration_body_fused", qos_best_effort10);
   acceleration_body_raw_pub_ =
       create_publisher<geometry_msgs::msg::AccelStamped>(
-          "psdk_ros2/acceleration_body_raw", 10);
+          "psdk_ros2/acceleration_body_raw", qos_best_effort10);
   relative_obstacle_info_pub_ =
       create_publisher<psdk_interfaces::msg::RelativeObstacleInfo>(
-          "psdk_ros2/relative_obstacle_info", 10);
+          "psdk_ros2/relative_obstacle_info", qos_best_effort10);
   control_mode_pub_ = create_publisher<psdk_interfaces::msg::ControlMode>(
-      "psdk_ros2/control_mode", 10);
+      "psdk_ros2/control_mode", qos_best_effort10);
   home_point_pub_ =
-      create_publisher<sensor_msgs::msg::NavSatFix>("psdk_ros2/home_point", 10);
+      create_publisher<sensor_msgs::msg::NavSatFix>("psdk_ros2/home_point", qos_best_effort10);
   home_point_status_pub_ =
-      create_publisher<std_msgs::msg::Bool>("psdk_ros2/home_point_status", 10);
+      create_publisher<std_msgs::msg::Bool>("psdk_ros2/home_point_status", qos_best_effort10);
   home_point_altitude_pub_ = create_publisher<std_msgs::msg::Float32>(
-      "psdk_ros2/home_point_altitude", 10);
+      "psdk_ros2/home_point_altitude", qos_best_effort10);
   altitude_sl_pub_ = create_publisher<std_msgs::msg::Float32>(
-      "psdk_ros2/altitude_sea_level", 10);
+      "psdk_ros2/altitude_sea_level", qos_best_effort10);
   altitude_barometric_pub_ = create_publisher<std_msgs::msg::Float32>(
-      "psdk_ros2/altitude_barometric", 10);
+      "psdk_ros2/altitude_barometric", qos_best_effort10);
 
   // Create TF broadcasters
   tf_static_broadcaster_ =
