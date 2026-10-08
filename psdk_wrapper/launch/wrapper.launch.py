@@ -17,6 +17,16 @@ from launch_ros.events.lifecycle import ChangeState
 import lifecycle_msgs.msg
 import launch
 
+import os
+
+
+def required_env(name: str) -> str:
+    value = os.getenv(name)
+    if not value:
+        raise RuntimeError(
+            f"Required environment variable '{name}' is unset or empty"
+        )
+    return value
 
 def generate_launch_description():
     """Launch the psdk_wrapper_node."""
@@ -67,6 +77,8 @@ def generate_launch_description():
         [FindPackageShare("psdk_wrapper"), "cfg", hms_return_codes_file]
     )
 
+    
+    
     # Prepare the wrapper node
     wrapper_node = LifecycleNode(
         package="psdk_wrapper",
@@ -75,11 +87,18 @@ def generate_launch_description():
         output="screen",
         namespace=namespace,
         parameters=[
+            psdk_params_file_path,
             {
                 "link_config_file_path": link_config_file_path,
                 "hms_return_codes_path": hms_return_codes_path,
+                # Acquire credntials from the envrionment instead of keeping them in the cfg 
+                # file, so we can keep this repo public :)
+                "app_name": required_env("DJI_APP_NAME"),
+                "app_id": required_env("DJI_APP_ID"),
+                "app_key": required_env("DJI_APP_KEY"),
+                "app_license": required_env("DJI_APP_LICENSE"),
+                "developer_account": required_env("DJI_DEV_ACC"),
             },
-            psdk_params_file_path,
         ],
     )
 
