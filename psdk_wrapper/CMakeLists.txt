@@ -36,12 +36,16 @@ find_package(nlohmann_json REQUIRED)
 # FetchContent module
 include(FetchContent)
 
+if(NOT DEFINED ENV{DJI_PSDK_PATH} OR "$ENV{DJI_PSDK_PATH}" STREQUAL "")
+  message(FATAL_ERROR "DJI_PSDK_PATH environment variable is not set.")
+endif()
+
 # Declare the content to fetch
 FetchContent_Declare(
   Payload_SDK
-  #GIT_REPOSITORY git@github.com:dji-sdk/Payload-SDK.git
-  #GIT_TAG release/v3.9.2
-  SOURCE_DIR /home/alars/Payload-SDK
+#  GIT_REPOSITORY git@github.com:dji-sdk/Payload-SDK.git
+#  GIT_TAG release/v3.9.2
+  SOURCE_DIR "$ENV{DJI_PSDK_PATH}"
 )
 
 FetchContent_GetProperties(Payload_SDK)
